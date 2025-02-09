@@ -1,0 +1,43 @@
+"""
+DogeCoin Multithread Brute Force (For Testing & Security)
+Author: Saiful Abidin
+Disclaimer: This tool is for educational and security testing purposes only.
+"""
+
+import threading
+import hashlib
+import random
+import string
+
+def generate_random_private_key():
+    """Generate a random private key"""
+    return ''.join(random.choices(string.hexdigits, k=64))
+
+def check_wallet(private_key):
+    """Simulate checking if the private key corresponds to a valid wallet"""
+    hashed = hashlib.sha256(private_key.encode()).hexdigest()
+    print(f"Checked: {private_key} -> {hashed[:10]}...")
+    
+    # Simulate finding a match
+    if hashed.endswith("0000"):  # Example condition
+        print(f"[!] Valid wallet found! Private Key: {private_key}")
+        exit(0)
+
+def brute_force_worker():
+    while True:
+        private_key = generate_random_private_key()
+        check_wallet(private_key)
+
+if __name__ == "__main__":
+    THREADS = 10  # Number of threads
+    print(f"Starting {THREADS} threads for brute force testing...")
+    
+    for _ in range(THREADS):
+        t = threading.Thread(target=brute_force_worker, daemon=True)
+        t.start()
+    
+    try:
+        while True:
+            pass
+    except KeyboardInterrupt:
+        print("Exiting...")
