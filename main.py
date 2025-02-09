@@ -8,6 +8,26 @@ import threading
 import hashlib
 import random
 import string
+import configparser
+
+# Baca config.ini
+config = configparser.ConfigParser()
+config.read('config.ini')
+
+# Ambil nilai dari config
+threads = int(config['GENERAL']['threads'])
+log_level = config['GENERAL']['log_level']
+wallet_address = config['TARGET']['wallet_address']
+key_length = int(config['BRUTE_FORCE']['key_length'])
+max_attempts = int(config['BRUTE_FORCE']['max_attempts'])
+rpc_url = config['API']['rpc_url']
+timeout = int(config['API']['timeout'])
+
+# Cetak untuk debug
+print(f"Threads: {threads}, Log Level: {log_level}")
+print(f"Target Wallet: {wallet_address}")
+print(f"Key Length: {key_length}, Max Attempts: {max_attempts}")
+print(f"RPC URL: {rpc_url}, Timeout: {timeout}")
 
 def generate_random_private_key():
     """Generate a random private key"""
